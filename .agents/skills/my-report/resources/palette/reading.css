@@ -1,0 +1,28 @@
+/* User-specified reading style, 2026-10-05. Shared by dark and light palettes. */
+[data-gpt-reading] {
+  --gpt-body-font-size: 16px;
+  --gpt-body-line-height: 26px;
+  --gpt-letter-spacing: normal;
+  --gpt-subheading-font-size: 18px;
+  --gpt-subheading-line-height: 28px;
+  --gpt-subheading-font-weight: 600;
+  --gpt-emphasis-font-weight: 600;
+  --gpt-paragraph-gap: 16px;
+  --gpt-subheading-gap: 4px;
+  --gpt-desktop-max-width: 640px;
+  width: min(var(--gpt-desktop-max-width), 100%);
+  min-width: 0;
+  margin-inline: auto;
+  font-size: var(--gpt-body-font-size);
+  line-height: var(--gpt-body-line-height);
+  letter-spacing: var(--gpt-letter-spacing);
+}
+[data-gpt-reading] h2 {
+  margin: 0 0 var(--gpt-subheading-gap);
+  font-size: var(--gpt-subheading-font-size);
+  line-height: var(--gpt-subheading-line-height);
+  font-weight: var(--gpt-subheading-font-weight);
+}
+[data-gpt-reading] p { margin: 0 0 var(--gpt-paragraph-gap); }
+[data-gpt-reading] p:last-child { margin-bottom: 0; }
+[data-gpt-reading] strong { font-weight: var(--gpt-emphasis-font-weight); }

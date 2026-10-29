@@ -1,0 +1,4 @@
+interface:
+  display_name: "프롬프트정돈"
+  short_description: "AI 행동 지시·Skill을 작성 의도와 실행 경계를 보존하며 정돈"
+  default_prompt: "$my-llm-prompt-guide를 사용해 명시된 AI 행동 지시나 Skill을 작성 의도와 실행 경계를 보존하며 작성·수정해 주세요."

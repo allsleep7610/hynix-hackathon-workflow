@@ -1,0 +1,4 @@
+interface:
+  display_name: "하이닉스 대회 안내"
+  short_description: "하이닉스 2차의 규정·제공환경·제출 조건을 필요한 때 확인"
+  default_prompt: "$hynix-exam-guide를 사용해 현재 작업에 적용할 대회 규정과 환경 안내를 확인해 주세요."

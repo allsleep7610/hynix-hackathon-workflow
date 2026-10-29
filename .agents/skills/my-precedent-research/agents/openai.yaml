@@ -1,0 +1,4 @@
+interface:
+  display_name: "선례조사"
+  short_description: "R3·디자인의 공통 조사 규격으로 기존 기반의 세부와 활용안을 찾습니다."
+  default_prompt: "$my-precedent-research를 사용해 이번 목표에 맞는 기존 기반을 실제 적용 가능한 수준까지 조사하고, 활용 방법과 남은 차이·결과 확인 기준을 제안해 주세요."

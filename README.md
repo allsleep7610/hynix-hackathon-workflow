@@ -1,0 +1,64 @@
+# 하이닉스 해커톤용 워크플로우
+
+기존 작업 방식에서 필요한 16개 Skill과 하이닉스 2026 2차 안내 Skill 1개를 모은 패키지입니다. 목표·권한·원문 보존과 실제 검증을 유지하면서 개인 상태·인증·사적 원자료를 포함하지 않습니다.
+
+## 가져오기와 적용
+
+공개 저장소를 가져오는 경로와 Skill 적용 방법은 제공 환경의 최신 안내를 따릅니다. 과제 작업공간과 복제한 폴더의 관계를 확인하고, 자동 발견 경로·AGENTS 인식·파일 지속성을 실제로 확인합니다. 이 패키지의 `.agents/skills/`와 루트 `AGENTS.md`는 배치 제안이며 제공 시험 환경에서 검증한 설치 경로가 아닙니다. 개인 홈 설정이나 제공 Codex 설치본을 덮어쓰지 않습니다.
+
+Skill이 발견되는 환경에서는 이름으로 요청하고, 자동 발견이 미확인인 경우에는 필요한 `.agents/skills/<이름>/SKILL.md` 파일을 읽도록 요청할 수 있습니다. 직접 읽은 것과 자동 발견 성공을 구별합니다. 제공 환경에서 접근이 막히면 제한을 우회하지 않습니다.
+
+예: “하이닉스 대회 안내 스킬을 읽고 지금 사용할 도구와 제출 단계의 조건을 확인해 주세요.”
+
+## 세션 상태 보존
+
+현재 세션의 정본은 작업공간에서 정한 SESSION.md 하나입니다. 기존 합의가 있으면 보존하고, 새 세션에 정본이 없을 때만 빈 규격을 복사합니다. 템플릿은 승인·진행 이력이 아닙니다.
+
+```sh
+cp -n templates/SESSION.md SESSION.md
+```
+
+사용 예: “SESSION 전체 읽고 이어가”, “여기까지 세션 저장해”, “기존 합의와 대조해서 바로잡아”. 이미 완전한 최신 원문이 문맥에 있으면 중복 조회하지 않으며 매 도구 호출마다 저장하지 않습니다.
+
+범용 Node helper는 `.agents/skills/my-session-save/scripts/session-document.mjs`에 있습니다. `readRegularFile`, `digest`, `parseSession`, `renderSession`, `replaceBlock(file,id,body,expectedHash)`를 사용할 수 있습니다. 문서 경로는 호출자가 허용된 작업공간 안에서 선택합니다. 기존 파일 갱신에는 읽은 SHA-256·배타 잠금·버전 대조·원자적 교체를 사용합니다. 기본 읽기/갱신 한도는 UTF-8 256 KiB이며 원문을 잘라 맞추지 않습니다. 파일이 없을 때 replaceBlock으로 새 정본을 만들지는 않습니다.
+
+helper는 import만으로 실행·등록·I/O를 하지 않습니다. 파일에 남은 `sessionContext` export는 사용하지 않으며 Hook 설정·이벤트 runner·자동 전달 캐시는 포함하지 않습니다. helper를 CLI처럼 직접 실행해도 갱신이 일어나지 않으므로 필요한 API를 명시적으로 import합니다. 실제 Node 버전·잠금·rename 지원은 제공환경에서 별도 확인합니다.
+
+## Skill 색인 — 17개
+
+| Skill | 역할 | 적용 기준 |
+| --- | --- | --- |
+| [my-r1-problem-framing](.agents/skills/my-r1-problem-framing/SKILL.md) | 문제구체화 | 원형 유지. SESSION 위치를 R1에서 새로 변환하지 않고 세션저장에 연결을 맡깁니다. |
+| [my-r2-north-star](.agents/skills/my-r2-north-star/SKILL.md) | 북극성목표 | 원형 유지. 목표 합의와 실행·공개 권한 구별을 보존합니다. |
+| [my-r3-work-contract](.agents/skills/my-r3-work-contract/SKILL.md) | 작업명세화 | 시험용 사본에서 저장소 운영 문단만 제공 작업공간·기준 파일 확인 문장으로 정리합니다. 사용자 선택이며 원문이 직접 Push를 지시해서가 아닙니다. |
+| [my-r4-work-tree](.agents/skills/my-r4-work-tree/SKILL.md) | 할일리스트업 | Hook 지정·자동 전달 전제를 시험 작업공간 SESSION 직접 조회로 연결합니다. 모델은 현재 메인 작업 설정을 계승하며 최신 모델 조회·선택·특정 버전 금지 절차는 추가하지 않습니다. |
+| [my-r5-work](.agents/skills/my-r5-work/SKILL.md) | 진행 | 원형 유지. Hook 부재·전달 불완전 시 직접 읽는 경로가 이미 있으므로 새 fallback을 구현하지 않습니다. |
+| [my-r6-check](.agents/skills/my-r6-check/SKILL.md) | 체크 | 원형 유지. 독립 평가자 원칙을 지킵니다. 제공 환경에 평가자 지원이 없으면 자체점검과 R6 미완료를 구별합니다. |
+| [my-action-authority](.agents/skills/my-action-authority/SKILL.md) | 권한확인 | 원형 유지. 대상·행동·범위·조건이 맞는 지속 합의는 유지하고 민감값·다른 계정 권한·실제 규정 충돌을 구별합니다. |
+| [my-communication](.agents/skills/my-communication/SKILL.md) | 소통 | 원형 유지. 미지원 표현 수단은 실제 도구 선택에서 조정하고 표현 역할 전체를 다시 쓰지 않습니다. |
+| [my-session-save](.agents/skills/my-session-save/SKILL.md) | 세션저장 | 단일 정본·확정 원문·버전 대조·잠금·충돌 보호를 보존합니다. 시험 작업공간의 위치·선택 helper 안내만 연결하고 Hook 이벤트 자동 전달을 전제하지 않습니다. |
+| [my-project-agents](.agents/skills/my-project-agents/SKILL.md) | 프로젝트지침 | 제외 결정을 철회하고 원형 유지 확정. 필요한 프로젝트 반복 기준이 있을 때만 사용하며 AGENTS 파일을 매번 만들지 않습니다. |
+| [my-abstraction](.agents/skills/my-abstraction/SKILL.md) | 추상화 | 4파일 원형 유지. 공개 링크·작성 배경만으로 민감정보나 필수 개작 대상으로 보지 않습니다. |
+| [my-design](.agents/skills/my-design/SKILL.md) | 디자인 | 원형 유지. 일반화된 User 경로·출처명만으로 개인정보 삭제 의무를 만들지 않습니다. 실제 화면 검증은 시험에서 허용한 경로를 사용합니다. |
+| [my-judgment-lens](.agents/skills/my-judgment-lens/SKILL.md) | 판단관점 | 사용자가 승인한 방향으로 시험용 사본을 재서술합니다. 사적 원자료 포인터와 불필요한 개인 사실을 덜고 고유 관점·이유·조건·출처 성격을 보존합니다. |
+| [my-llm-prompt-guide](.agents/skills/my-llm-prompt-guide/SKILL.md) | 프롬프트정돈 | 원형 유지. 기존 일반 지시/제작 분기를 사용하며 관리 참조·생성기를 규정 때문에 필수 삭제하지 않습니다. 모든 위임의 의무 관문으로 만들지 않습니다. |
+| [my-precedent-research](.agents/skills/my-precedent-research/SKILL.md) | 선례조사 | 원형 유지. 개인 패키지 역할 안내는 강제 호출이 아니므로 본문 제거를 필수로 세지 않습니다. 현재 결정을 바꿀 공개 자료를 허용 경로에서 조사합니다. |
+| [my-report](.agents/skills/my-report/SKILL.md) | 보고서 | 역할·본문 유지. 승인된 팔레트 통합에 따라 직접 Skill 참조만 내부 리소스 안내로 연결합니다. 매 과제에 별도 HTML 보고서를 강제하지 않습니다. |
+| [hynix-exam-guide](.agents/skills/hynix-exam-guide/SKILL.md) | 하이닉스 대회 안내 | 이번 대회의 규정·환경·저장/제출 조건을 필요한 때 조회합니다. |
+
+## 기능 차이와 남은 확인
+
+- 독립 exam-context와 Hook 자동 실행/복원은 없습니다. 기존 공통 지침과 세션저장의 필요한 조회·저장 시점을 사용합니다.
+- 모델은 현재 메인 작업의 모델·추론 강도를 계승합니다. 대회 권장 모델 목록을 자동 전환 정책으로 사용하지 않고 제공 Codex를 업데이트하지 않습니다.
+- 독립 R6에는 수행에 참여하지 않은 평가자가 필요합니다. 제공 Codex의 내부 평가자 지원은 미확인입니다. 미지원이면 자체 점검과 R6 미완료를 구별하며 개인 API나 외부 AI로 보충하지 않습니다.
+- 판단관점은 사용자 제공 생각의 공개용 재서술입니다. 책 원문·자료의 주장과 사용자 채택·관심·AI 해석을 구분하고 개인 원자료 포인터와 불필요한 개인 사실을 넣지 않습니다.
+- 팔레트 독립 Skill은 없고 보고서 내부 CSS/JSON·측정 범위·대비 안내만 보존했습니다. 측정값을 최신 공식 UI 규격이라고 소개하지 않습니다.
+- viewer, 설치본 패치, 전문 기능 9개, 기존 이미지/과거 snapshot, 실제 Profile/Soul/Materials·SESSION·로그·회고·config·인증·개인 연결과 기존 Git 이력은 포함하지 않습니다.
+- 신규 공개 저장소의 별도 등록/최소 사전 공개 기간, 실제 Skill/AGENTS 인식·파일 지속성·Node/helper·내부 독립평가 지원은 확인된 안내와 실제 관찰을 구분합니다. 이 패키지 사용이 시험 반입 허가나 작동 성공의 증거는 아닙니다.
+- 10/29 안내는 사용하는 저장소를 2차 예선 결과 통지 전까지 공개 상태로 유지하도록 안내합니다. 시험 문제·작업·결과는 외부로 전송하지 않으며 시험 중 Git Push를 수행하지 않습니다.
+
+## 출처와 고지
+
+대회 자료의 문서명·배포일·페이지·미확인은 [대회 출처](.agents/skills/hynix-exam-guide/references/sources.md)에, 팔레트의 확보 범위는 [팔레트 안내](.agents/skills/my-report/resources/palette/README.md)에 있습니다. 실제 파일 경로는 모두 `.agents/skills/` 아래입니다. 외부 링크는 출처 포인터이며 해당 원문·그림·서적을 이 저장소에 포함한다는 뜻이 아닙니다.
+
+이 패키지는 주최기관의 공식 배포물이나 사용 승인서가 아닙니다. NOTICE.md를 함께 확인하세요.

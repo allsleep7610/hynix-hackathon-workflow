@@ -1,0 +1,4 @@
+interface:
+  display_name: "문제구체화"
+  short_description: "문제를 분석하여 사용자와 AI가 원하는 변화와 중요한 미확인을 정리합니다"
+  default_prompt: "$my-r1-problem-framing 스킬을 사용해 요청한 범위를 처리해 주세요."

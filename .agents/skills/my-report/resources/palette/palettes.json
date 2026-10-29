@@ -1,0 +1,38 @@
+{
+  "capturedOn": "2026-10-04",
+  "source": "chatgpt.com",
+  "readingStyle": {
+    "specifiedOn": "2026-10-05",
+    "evidenceLevel": "user-specified reusable reading style; not a new measurement of all GPT screens",
+    "appliesTo": ["dark", "light"],
+    "tokens": {
+      "bodyFontSize": "16px", "bodyLineHeight": "26px", "letterSpacing": "normal",
+      "subheadingFontSize": "18px", "subheadingLineHeight": "28px", "subheadingFontWeight": 600,
+      "emphasisFontWeight": 600, "paragraphGap": "16px", "subheadingGap": "4px", "desktopMaxWidth": "640px"
+    }
+  },
+  "dark": {
+    "evidenceLevel": "actual rendered home and answer computed styles plus supplied screenshot",
+    "tokens": {
+      "shell": "#000000", "reading": "#0E0E0E", "track": "#1B1B1B", "control": "#212121", "chip": "#303030",
+      "text": "#EDEDED", "secondary": "#CDCDCD", "muted": "#AFAFAF", "actionIcon": "#FFFFFF", "onLight": "#0D0D0D",
+      "primary": "#2C67C5", "fileIcon": "#0285FF", "bubble": "#173E76", "bubbleText": "#F6FAFE",
+      "borderSubtle": "rgb(255 255 255 / 5%)", "border": "rgb(255 255 255 / 15%)", "borderStrong": "rgb(255 255 255 / 20%)",
+      "overlay": "rgb(255 255 255 / 10%)", "inlineCode": "color(srgb 0.965048 0.965048 0.965048 / 0.121176)",
+      "activityText": "oklab(0.946099 0.0000428557 0.0000189543 / 0.6)", "navLayer": "oklab(0.163757 0.00000747293 0.00000327826 / 0.65)",
+      "bottomFade": "linear-gradient(to top in oklab, rgb(14,14,14) 0%, rgba(0,0,0,0) 100%)"
+    },
+    "limits": ["Blue bubble is the observed selected color theme, not universal default", "File icon blue is not general link blue", "Composite pixels are not independent tokens"]
+  },
+  "light": {
+    "evidenceLevel": "actual page theme CSS computed in local light/browser/contrast-60 specimen; not full live light screen",
+    "tokens": {
+      "shell": "#F9F9F9", "reading": "#FCFCFC", "track": "rgb(13 13 13 / 3%)", "control": "#FFFFFF", "chip": "#F3F3F3",
+      "text": "#0D0D0D", "secondary": "#5D5D5D", "muted": "#8F8F8F", "actionIcon": "#FFFFFF", "primary": "#3A83F7", "accentText": "#2C67C5", "focus": "#3A83F7",
+      "bubble": "#E8F3FE", "bubbleText": "#0C274A", "borderSubtle": "rgb(0 0 0 / 5%)", "border": "rgb(0 0 0 / 10%)", "borderStrong": "rgb(0 0 0 / 15%)",
+      "hover": "rgb(0 0 0 / 5%)", "active": "rgb(0 0 0 / 10%)", "tabShadow": "0 1px 6px 0 rgb(0 0 0 / 5%)", "selection": "#539AF859",
+      "codeBaseToken": "#FCFCFC", "inlineCodeBaseToken": "#F3F3F3"
+    },
+    "limits": ["Blue browser-theme overrides are separate from neutral CSS branches", "Code base tokens are not verified final component paint", "Primary blue with small white text has less than 4.5:1 contrast"]
+  }
+}

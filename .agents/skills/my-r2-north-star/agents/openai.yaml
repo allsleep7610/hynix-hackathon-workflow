@@ -1,0 +1,4 @@
+interface:
+  display_name: "북극성목표"
+  short_description: "문제 분석을 바탕으로 이번 세션이 도달할 목표를 사용자와 확정합니다"
+  default_prompt: "$my-r2-north-star 스킬을 사용해 요청한 범위를 처리해 주세요."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "세션저장"
+  short_description: "R1~R4 확정 원문과 현재 상태를 한 문서에 보존하고 복원합니다"
+  default_prompt: "$my-session-save 스킬을 사용해 요청한 범위를 처리해 주세요."

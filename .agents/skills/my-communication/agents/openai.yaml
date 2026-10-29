@@ -1,0 +1,4 @@
+interface:
+  display_name: "소통"
+  short_description: "현재 위치와 행동 이유 및 남은 사용자 판단을 이해하기 쉽게 설명합니다"
+  default_prompt: "$my-communication 스킬을 사용해 요청한 범위를 처리해 주세요."

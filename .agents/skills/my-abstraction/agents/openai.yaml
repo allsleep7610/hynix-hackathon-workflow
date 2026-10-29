@@ -1,0 +1,4 @@
+interface:
+  display_name: "추상화"
+  short_description: "활용 목적에 맞게 잡음을 덜고 핵심 관계와 성립 조건을 보존합니다."
+  default_prompt: "$my-abstraction 스킬로 지정한 대상에서 활용 목적에 맞는 핵심 관계와 조건을 남겨 추상화해 주세요."

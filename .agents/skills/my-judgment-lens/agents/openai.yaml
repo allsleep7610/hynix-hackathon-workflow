@@ -1,0 +1,6 @@
+interface:
+  display_name: "나의 판단 관점"
+  short_description: "AI 활용 선택에 사용자 관점을 연결하고 적용한 생각과 제안 이유를 알립니다."
+  default_prompt: "$my-judgment-lens를 사용해 이 AI 활용 선택을 내 관점에서 검토해 주세요."
+policy:
+  allow_implicit_invocation: true

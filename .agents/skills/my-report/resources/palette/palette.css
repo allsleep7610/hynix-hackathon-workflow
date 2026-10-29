@@ -1,0 +1,50 @@
+/* GPT captured 2026-10-04: measured dark / locally computed light definitions. */
+[data-gpt-palette="dark"] {
+  --gpt-shell: #000000;
+  --gpt-reading: #0E0E0E;
+  --gpt-track: #1B1B1B;
+  --gpt-control: #212121;
+  --gpt-chip: #303030;
+  --gpt-text: #EDEDED;
+  --gpt-secondary: #CDCDCD;
+  --gpt-muted: #AFAFAF;
+  --gpt-action-icon: #FFFFFF;
+  --gpt-on-light: #0D0D0D;
+  --gpt-primary: #2C67C5;
+  --gpt-file-icon: #0285FF;
+  --gpt-bubble: #173E76;
+  --gpt-bubble-text: #F6FAFE;
+  --gpt-border-subtle: rgb(255 255 255 / 5%);
+  --gpt-border: rgb(255 255 255 / 15%);
+  --gpt-border-strong: rgb(255 255 255 / 20%);
+  --gpt-overlay: rgb(255 255 255 / 10%);
+  --gpt-inline-code: color(srgb 0.965048 0.965048 0.965048 / 0.121176);
+  --gpt-activity-text: oklab(0.946099 0.0000428557 0.0000189543 / 0.6);
+  --gpt-nav-layer: oklab(0.163757 0.00000747293 0.00000327826 / 0.65);
+  --gpt-bottom-fade: linear-gradient(to top in oklab, rgb(14,14,14) 0%, rgba(0,0,0,0) 100%);
+}
+[data-gpt-palette="light"] {
+  --gpt-shell: #F9F9F9;
+  --gpt-reading: #FCFCFC;
+  --gpt-track: rgb(13 13 13 / 3%);
+  --gpt-control: #FFFFFF;
+  --gpt-chip: #F3F3F3;
+  --gpt-text: #0D0D0D;
+  --gpt-secondary: #5D5D5D;
+  --gpt-muted: #8F8F8F;
+  --gpt-action-icon: #FFFFFF;
+  --gpt-primary: #3A83F7;
+  --gpt-accent-text: #2C67C5;
+  --gpt-focus: #3A83F7;
+  --gpt-bubble: #E8F3FE;
+  --gpt-bubble-text: #0C274A;
+  --gpt-border-subtle: rgb(0 0 0 / 5%);
+  --gpt-border: rgb(0 0 0 / 10%);
+  --gpt-border-strong: rgb(0 0 0 / 15%);
+  --gpt-hover: rgb(0 0 0 / 5%);
+  --gpt-active: rgb(0 0 0 / 10%);
+  --gpt-tab-shadow: 0 1px 6px 0 rgb(0 0 0 / 5%);
+  --gpt-selection: #539AF859;
+  --gpt-code-base-token: #FCFCFC;
+  --gpt-inline-code-base-token: #F3F3F3;
+}

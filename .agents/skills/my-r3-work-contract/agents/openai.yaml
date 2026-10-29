@@ -1,0 +1,4 @@
+interface:
+  display_name: "작업 명세화"
+  short_description: "선례와 가정을 검토하고 작업 위치 및 범위와 완료 기준을 합의합니다"
+  default_prompt: "$my-r3-work-contract 스킬을 사용해 요청한 범위를 처리해 주세요."

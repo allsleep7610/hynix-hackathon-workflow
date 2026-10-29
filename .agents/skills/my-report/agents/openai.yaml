@@ -1,0 +1,4 @@
+interface:
+  display_name: "보고서"
+  short_description: "필요한 내용과 글·표·그림으로 이해 부담을 줄이는 보고서 작성"
+  default_prompt: "$my-report를 사용해 선택한 자료를 필요한 내용과 글·표·그림으로 설명하고, 이해에 도움이 되면 HTML로 제공해 주세요."

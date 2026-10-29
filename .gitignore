@@ -1,0 +1,7 @@
+SESSION.md
+!templates/SESSION.md
+SESSION.md.lock
+.session-context.json
+.session-*.tmp
+node_modules/
+.DS_Store
