@@ -1,0 +1,4 @@
+interface:
+  display_name: "기능 안내"
+  short_description: "실제 구현·검증 결과에 연결해 핵심 동작과 사용법·이유·한계를 설명합니다"
+  default_prompt: "$my-feature-guide 지금 완성한 기능의 핵심 동작과 사용법, 선택 이유와 한계를 설명해 주세요."
