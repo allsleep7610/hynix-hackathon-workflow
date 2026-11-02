@@ -5,3 +5,6 @@ SESSION.md.lock
 .session-*.tmp
 node_modules/
 .DS_Store
+.hynix-harness/runtime/
+.codex/hooks.json
+.codex/hooks.json.hynix.lock

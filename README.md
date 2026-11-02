@@ -12,7 +12,7 @@ Skill이 발견되는 환경에서는 이름으로 요청하고, 자동 발견�
 
 ## 세션 상태 보존
 
-현재 세션의 정본은 작업공간에서 정한 SESSION.md 하나입니다. 기존 합의가 있으면 보존하고, 새 세션에 정본이 없을 때만 빈 규격을 복사합니다. 템플릿은 승인·진행 이력이 아닙니다.
+현재 세션의 정본은 작업공간에서 정한 SESSION.md 하나입니다. 기존 합의가 있으면 보존하고, 새 세션에 정본이 없을 때만 다른 세션과 구별되는 위치에 빈 규격을 복사합니다. 아래 명령은 아직 정본이 없고 이 위치를 사용하기로 정했을 때의 예입니다. 템플릿은 승인·진행 이력이 아닙니다.
 
 ```sh
 cp -n templates/SESSION.md SESSION.md
@@ -22,7 +22,13 @@ cp -n templates/SESSION.md SESSION.md
 
 범용 Node helper는 `.agents/skills/my-session-save/scripts/session-document.mjs`에 있습니다. `readRegularFile`, `digest`, `parseSession`, `renderSession`, `replaceBlock(file,id,body,expectedHash)`를 사용할 수 있습니다. 문서 경로는 호출자가 허용된 작업공간 안에서 선택합니다. 기존 파일 갱신에는 읽은 SHA-256·배타 잠금·버전 대조·원자적 교체를 사용합니다. 기본 읽기/갱신 한도는 UTF-8 256 KiB이며 원문을 잘라 맞추지 않습니다. 파일이 없을 때 replaceBlock으로 새 정본을 만들지는 않습니다.
 
-helper는 import만으로 실행·등록·I/O를 하지 않습니다. 파일에 남은 `sessionContext` export는 사용하지 않으며 Hook 설정·이벤트 runner·자동 전달 캐시는 포함하지 않습니다. helper를 CLI처럼 직접 실행해도 갱신이 일어나지 않으므로 필요한 API를 명시적으로 import합니다. 실제 Node 버전·잠금·rename 지원은 제공환경에서 별도 확인합니다.
+helper는 import만으로 실행·등록·I/O를 하지 않으며 CLI처럼 직접 실행해도 갱신하지 않습니다. Node가 없어도 제공 파일 도구·셸로 같은 잠금·버전 대조·원문 보존 규약을 지킵니다. GitHub에서 받은 Skill과 직접 조회가 기본이며 Node 신규 설치는 필수가 아닙니다.
+
+기존 Node와 Hook 지원이 있으면 `.hynix-harness/hooks/setup.mjs --workspace <작업공간 절대경로> --check`를 기존 Node로 실행해 점검한 뒤 `--check` 없이 등록할 수 있습니다. 세 이벤트의 자동 전달은 선택 기능입니다. 같은 세션의 기존 정본을 연결할 때는 실제 ID와 `--session-id <ID> --document <정본 경로>`를 함께 지정합니다. 미지원·충돌·미신뢰·실행 실패 때는 같은 정본을 직접 읽어 계속합니다. 등록은 실제 주입 성공을 뜻하지 않습니다. 기존 전역 설정·모델·인증은 바꾸지 않습니다.
+
+로컬 Mac/Linux에서 기존 Node로 `.hynix-harness/tests/regression.mjs`를 실행하면 별도 임시 폴더의 합성 자료로 전달·복구·등록·제거를 검증합니다. 원래 패키지를 등록하거나 수정하지 않으며 실제 시험 지원 검증은 아닙니다.
+
+경로 선택·등록·신뢰 확인·제거·직접 조회 전환은 [실행 환경 연결](.agents/skills/my-session-save/references/runtime.md)을 참고합니다. 이 과정에서 실제 SESSION·캐시·설정 백업은 runtime 아래에만 생기며 공개하지 않습니다.
 
 ## Skill 색인 — 18개
 
@@ -31,12 +37,12 @@ helper는 import만으로 실행·등록·I/O를 하지 않습니다. 파일에 
 | [my-r1-problem-framing](.agents/skills/my-r1-problem-framing/SKILL.md) | 문제구체화 | 원형 유지. SESSION 위치를 R1에서 새로 변환하지 않고 세션저장에 연결을 맡깁니다. |
 | [my-r2-north-star](.agents/skills/my-r2-north-star/SKILL.md) | 북극성목표 | 원형 유지. 목표 합의와 실행·공개 권한 구별을 보존합니다. |
 | [my-r3-work-contract](.agents/skills/my-r3-work-contract/SKILL.md) | 작업명세화 | 시험용 사본에서 저장소 운영 문단만 제공 작업공간·기준 파일 확인 문장으로 정리합니다. 사용자 선택이며 원문이 직접 Push를 지시해서가 아닙니다. |
-| [my-r4-work-tree](.agents/skills/my-r4-work-tree/SKILL.md) | 할일리스트업 | Hook 지정·자동 전달 전제를 시험 작업공간 SESSION 직접 조회로 연결합니다. 모델은 현재 메인 작업 설정을 계승하며 최신 모델 조회·선택·특정 버전 금지 절차는 추가하지 않습니다. |
+| [my-r4-work-tree](.agents/skills/my-r4-work-tree/SKILL.md) | 할일리스트업 | 시험 작업공간 SESSION을 직접 조회하며, 선택 Hook으로 최신 원문이 전달되면 중복 조회하지 않습니다. 모델은 현재 메인 작업 설정을 계승하며 최신 모델 조회·선택·특정 버전 금지 절차는 추가하지 않습니다. |
 | [my-r5-work](.agents/skills/my-r5-work/SKILL.md) | 진행 | 기존 실행·검증 책임을 유지하고, 핵심 기능의 R6 통과 뒤 메인이 기능안내를 연결합니다. 진행 중 질문·필수 조작 안내는 필요한 시점에 제공합니다. |
 | [my-r6-check](.agents/skills/my-r6-check/SKILL.md) | 체크 | 독립 평가자가 과제·완료 기준·실패 가능성에 맞는 검증 방법을 선택하고 증거의 충분성을 판단합니다. 평가자 지원이 없으면 자체점검과 R6 미완료를 구별합니다. |
 | [my-action-authority](.agents/skills/my-action-authority/SKILL.md) | 권한확인 | 원형 유지. 대상·행동·범위·조건이 맞는 지속 합의는 유지하고 민감값·다른 계정 권한·실제 규정 충돌을 구별합니다. |
 | [my-communication](.agents/skills/my-communication/SKILL.md) | 소통 | 원형 유지. 미지원 표현 수단은 실제 도구 선택에서 조정하고 표현 역할 전체를 다시 쓰지 않습니다. |
-| [my-session-save](.agents/skills/my-session-save/SKILL.md) | 세션저장 | 단일 정본·확정 원문·버전 대조·잠금·충돌 보호를 보존합니다. 시험 작업공간의 위치·선택 helper 안내만 연결하고 Hook 이벤트 자동 전달을 전제하지 않습니다. |
+| [my-session-save](.agents/skills/my-session-save/SKILL.md) | 세션저장 | 단일 정본·확정 원문·버전 대조·잠금·충돌 보호를 보존합니다. 시험 작업공간의 정본·선택 helper·선택 Hook 연결을 안내하며 미지원 시 같은 정본을 직접 조회합니다. |
 | [my-project-agents](.agents/skills/my-project-agents/SKILL.md) | 프로젝트지침 | 제외 결정을 철회하고 원형 유지 확정. 필요한 프로젝트 반복 기준이 있을 때만 사용하며 AGENTS 파일을 매번 만들지 않습니다. |
 | [my-abstraction](.agents/skills/my-abstraction/SKILL.md) | 추상화 | 4파일 원형 유지. 공개 링크·작성 배경만으로 민감정보나 필수 개작 대상으로 보지 않습니다. |
 | [my-design](.agents/skills/my-design/SKILL.md) | 디자인 | 원형 유지. 일반화된 User 경로·출처명만으로 개인정보 삭제 의무를 만들지 않습니다. 실제 화면 검증은 시험에서 허용한 경로를 사용합니다. |
@@ -61,12 +67,12 @@ helper는 import만으로 실행·등록·I/O를 하지 않습니다. 파일에 
 
 ## 기능 차이와 남은 확인
 
-- 독립 exam-context와 Hook 자동 실행/복원은 없습니다. 기존 공통 지침과 세션저장의 필요한 조회·저장 시점을 사용합니다.
+- 독립 exam-context는 없습니다. 세션저장의 직접 조회·저장이 기본이고, 기존 Node와 허용된 이벤트 지원이 있을 때 SESSION 자동 전달 Hook을 선택 연결합니다. 실제 이벤트·신뢰·시험 제공 환경의 지원은 별도 확인합니다.
 - 모델은 현재 메인 작업의 모델·추론 강도를 계승합니다. 대회 권장 모델 목록을 자동 전환 정책으로 사용하지 않고 제공 Codex를 업데이트하지 않습니다.
 - 독립 R6에는 수행에 참여하지 않은 평가자가 필요합니다. 제공 Codex의 내부 평가자 지원은 미확인입니다. 미지원이면 자체 점검과 R6 미완료를 구별하며 개인 API나 외부 AI로 보충하지 않습니다.
 - 판단관점은 사용자 제공 생각의 공개용 재서술입니다. 책 원문·자료의 주장과 사용자 채택·관심·AI 해석을 구분하고 개인 원자료 포인터와 불필요한 개인 사실을 넣지 않습니다.
 - 팔레트 독립 Skill은 없고 보고서 내부 CSS/JSON·측정 범위·대비 안내만 보존했습니다. 측정값을 최신 공식 UI 규격이라고 소개하지 않습니다.
-- viewer, 설치본 패치, 전문 기능 9개, 기존 이미지/과거 snapshot, 실제 Profile/Soul/Materials·SESSION·로그·회고·config·인증·개인 연결과 기존 Git 이력은 포함하지 않습니다.
+- viewer, 설치본 패치, 전문 기능 9개, 기존 이미지/과거 snapshot, 실제 Profile/Soul/Materials·SESSION·로그·회고·개인 config·인증·개인 연결과 기존 Git 이력은 포함하지 않습니다. Hook 코드와 합성 테스트만 반입하고 runtime 기록과 생성된 프로젝트 훅 설정은 공개에서 제외합니다.
 - 신규 공개 저장소의 별도 등록/최소 사전 공개 기간, 실제 Skill/AGENTS 인식·파일 지속성·Node/helper·내부 독립평가 지원은 확인된 안내와 실제 관찰을 구분합니다. 이 패키지 사용이 시험 반입 허가나 작동 성공의 증거는 아닙니다.
 - 10/29 안내는 사용하는 저장소를 2차 예선 결과 통지 전까지 공개 상태로 유지하도록 안내합니다. 시험 문제·작업·결과는 외부로 전송하지 않으며 시험 중 Git Push를 수행하지 않습니다.
 
