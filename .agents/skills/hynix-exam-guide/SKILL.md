@@ -20,6 +20,7 @@ description: "2026 SK하이닉스 AI 해커톤 2차 예선의 도구·자료·�
 | 현재 판단 | 읽을 참조 |
 |---|---|
 | AI·모델·Skill·공개 저장소·MCP·자료 반입·외부 전송의 허용 범위 | [규정](references/rules.md)의 관련 절 |
+| 이 하네스 설치·적용 요청의 마무리: 설정 변경·자연어 분기 도구 확인·결과 보고 | [설치 마무리](references/installation.md) |
 | 사람의 사전 준비, 제공 도구, Browser, 저장 충돌, 시간·제출·종료 | [환경과 진행](references/platform.md)의 관련 절 |
 | 안내 간 차이, 출처·판본·확인 범위, 미확인 조건 | [출처와 적용 범위](references/sources.md) |
 | 이 Skill을 만든 이유나 범위를 검토·수정 | [제작 배경](references/design-context.md) |
